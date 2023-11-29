@@ -1,4 +1,23 @@
+import { useNavigate } from 'react-router-dom';
+
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleHome = () => {
+    // Redirigir a la ruta de resultados con el término de búsqueda en la URL
+    navigate(`/`);
+  };
+
+  const handleProveedores = () => {
+      // Redirigir a la ruta de resultados con el término de búsqueda en la URL
+      navigate(`/proveedores`);
+    };
+
+  const handleMateria = () => {
+    // Redirigir a la ruta de resultados con el término de búsqueda en la URL
+    navigate(`/materiaPrima`);
+  };
+
   return (
     <>
       <nav className="navbar navbar-dark bg-dark fixed-top">
@@ -20,8 +39,14 @@ const Navbar = () => {
               width="100px"
             />
           </a>
-          <button className="navbar-toggler" type="button">
+          <button onClick={handleHome} className="navbar-toggler" type="button">
             <span className="btn btn-dark"> HOME </span>
+          </button>
+          <button onClick={handleProveedores} className="navbar-toggler" type="button">
+            <span className="btn btn-dark"> PROVEEDORES </span>
+          </button>
+          <button onClick={handleMateria} className="navbar-toggler" type="button">
+            <span className="btn btn-dark"> MATERIA PRIMA </span>
           </button>
           <button className="navbar-toggler" type="button">
             <span className="btn btn-dark"> PRODUCTOS </span>
