@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
   return (
     <>
@@ -26,6 +28,12 @@ const Navbar = () => {
           <button className="navbar-toggler" type="button">
             <span className="btn btn-dark"> PRODUCTOS </span>
           </button>
+          <button className="navbar-toggler" type="button">
+            <Link to="/login" className="btn btn-dark"> LOGIN </Link>
+          </button>
+          <button className="navbar-toggler" type="button">
+            <Link to="/profile" className="btn btn-dark"> PERFIL </Link>
+          </button>
           <div
             className="offcanvas offcanvas-start text-bg-dark"
             tabIndex="-1"
@@ -46,14 +54,24 @@ const Navbar = () => {
             <div className="offcanvas-body">
               <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#">
+                <Link to="/" className="nav-link">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">
                     Link
                   </a>
+                </li>
+                <li className="nav-item">
+                  <Link to="/login" className="nav-link">
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/profile" className="nav-link">
+                    Perfil
+                  </Link>
                 </li>
               </ul>
             </div>
