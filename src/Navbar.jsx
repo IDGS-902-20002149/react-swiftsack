@@ -17,6 +17,10 @@ const Navbar = () => {
     // Redirigir a la ruta de resultados con el término de búsqueda en la URL
     navigate(`/materiaPrima`);
   };
+  const handleCompra = () => {
+    // Redirigir a la ruta de resultados con el término de búsqueda en la URL
+    navigate(`/compra`);
+  };
 
   return (
     <>
@@ -50,6 +54,9 @@ const Navbar = () => {
           </button>
           <button className="navbar-toggler" type="button">
             <span className="btn btn-dark"> PRODUCTOS </span>
+          </button>
+          <button onClick={handleCompra} className="navbar-toggler" type="button">
+            <span className="btn btn-dark"> Compra </span>
           </button>
           <div
             className="offcanvas offcanvas-start text-bg-dark"
