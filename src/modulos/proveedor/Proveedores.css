@@ -1,0 +1,15 @@
+.titleProv {
+    font-size: 2em;  /* Ajusta el tamaño del texto según sea necesario */
+    text-align: center;
+    
+  }
+
+.titleProveedor {
+    font-size: 2em;  /* Ajusta el tamaño del texto según sea necesario */
+    text-align: center;
+    /* Agrega más estilos personalizados si es necesario */
+  }
+
+  .btnRegistrar {
+    text-align-last: center;
+  }
