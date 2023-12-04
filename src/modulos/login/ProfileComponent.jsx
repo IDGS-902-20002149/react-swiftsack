@@ -8,30 +8,36 @@ const ProfileComponent = () => {
     email: '',
     telefono: '',
   });
+  const [showAlert, setShowAlert] = useState(false); // Nuevo estado para controlar la visibilidad de la alerta
 
   useEffect(() => {
-    // Obtener el usuario del localStorage
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    // Obtener el usuario del sessionStorage
+    const storedUser = JSON.parse(sessionStorage.getItem('userData'));
 
     if (storedUser) {
+      console.log('Usuario almacenado en sessionStorage:', storedUser);
+
       // Obtener el perfil del usuario desde la API
-      axios.get(`https://192.168.3.117:7267/api/auth/profile/${storedUser.id}`)
+      axios.get(`https://localhost:7267/api/auth/profile/${storedUser.id}`)
         .then(response => {
           setUser(response.data);
+          console.log('Perfil de usuario cargado correctamente:', response.data);
         })
         .catch(error => {
           console.error('Error al obtener el perfil:', error);
         });
+    } else {
+      console.log('No se encontró usuario en sessionStorage');
     }
   }, []);
 
   const handleUpdateProfile = async () => {
     try {
-      const response = await axios.put(`https://192.168.3.117:7267/api/auth/profile/${user.id}`, user);
+      const response = await axios.put(`https://localhost:7267/api/auth/profile/${user.id}`, user);
 
       if (response.status === 200) {
         console.log('Perfil actualizado:', response.data);
-        // Puedes agregar lógica adicional aquí si es necesario
+        setShowAlert(true); // Mostrar la alerta al actualizar exitosamente
       } else {
         console.error('Error al actualizar el perfil:', response.data);
       }
@@ -51,6 +57,11 @@ const ProfileComponent = () => {
     <div style={styles.container}>
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Perfil de Usuario</h2>
+        {showAlert && ( // Mostrar la alerta si showAlert es true
+          <div className="alert alert-success" role="alert">
+            Perfil actualizado exitosamente.
+          </div>
+        )}
         <form style={styles.form}>
           <label style={styles.label}>Nombre:</label>
           <input type="text" name="name" value={user.name} onChange={handleChange} style={styles.input} />
@@ -70,47 +81,46 @@ const ProfileComponent = () => {
   );
 };
 
-
 const styles = {
-    container: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-    },
-    formContainer: {
-      width: '300px',
-      padding: '20px',
-      borderRadius: '10px',
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-      backgroundColor: '#fff',
-    },
-    heading: {
-      textAlign: 'center',
-      marginBottom: '20px',
-      color: '#333',
-    },
-    form: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    label: {
-      marginBottom: '5px',
-      color: '#555',
-    },
-    input: {
-      marginBottom: '10px',
-      padding: '8px',
-      border: '1px solid #ccc',
-      borderRadius: '5px',
-    },
-    loginButton: {
-      backgroundColor: '#000',
-      color: '#fff',
-      borderRadius: '5px',
-      padding: '10px',
-      cursor: 'pointer',
-    },
-  };
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+  },
+  formContainer: {
+    width: '300px',
+    padding: '20px',
+    borderRadius: '10px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#fff',
+  },
+  heading: {
+    textAlign: 'center',
+    marginBottom: '20px',
+    color: '#333',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  label: {
+    marginBottom: '5px',
+    color: '#555',
+  },
+  input: {
+    marginBottom: '10px',
+    padding: '8px',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+  },
+  loginButton: {
+    backgroundColor: '#000',
+    color: '#fff',
+    borderRadius: '5px',
+    padding: '10px',
+    cursor: 'pointer',
+  },
+};
 
 export default ProfileComponent;

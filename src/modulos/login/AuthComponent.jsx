@@ -1,19 +1,15 @@
 import { useState } from 'react';
 import axios from 'axios';
-import RegisterComponent from './RegisterComponent'; // Importa el nuevo componente
+import RegisterComponent from './RegisterComponent';
 
 const AuthComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showRegister, setShowRegister] = useState(false);
-  const [logoutMessage, setLogoutMessage] = useState('');
 
   const handleLogin = async () => {
     try {
-      // Limpiar mensaje de cierre de sesión al intentar iniciar sesión
-      setLogoutMessage('');
-
-      const response = await axios.post('https://192.168.3.117:7267/api/auth/login', {
+      const response = await axios.post('https://localhost:7267/api/auth/login', {
         Email: email,
         Password: password,
       });
@@ -21,11 +17,11 @@ const AuthComponent = () => {
       if (response.status === 200) {
         console.log('Usuario autenticado:', response.data);
 
-        localStorage.setItem('user', JSON.stringify(response.data));
+        sessionStorage.setItem('userData', JSON.stringify(response.data));
+        console.log('Usuario almacenado en sessionStorage:', sessionStorage.getItem('userData'));
 
       } else {
         console.error('Error al iniciar sesión:', response.data);
-        // Handle other statuses (e.g., authentication failure)
       }
     } catch (error) {
       if (error.response) {
@@ -38,19 +34,8 @@ const AuthComponent = () => {
     }
   };
 
-  const handleLogout = () => {
-    // Eliminar información del usuario al cerrar sesión
-    localStorage.removeItem('user');
-    setLogoutMessage('Sesión cerrada correctamente');
-
-    // Otros pasos que puedas necesitar al cerrar sesión
-  };
-  
-
   const toggleView = () => {
     setShowRegister(!showRegister);
-    setLogoutMessage('');
-
   };
 
   return (
@@ -61,7 +46,6 @@ const AuthComponent = () => {
         ) : (
           <>
             <h2 style={styles.heading}>Iniciar Sesión</h2>
-            {logoutMessage && <p style={styles.logoutMessage}>{logoutMessage}</p>}
             <form style={styles.form}>
               <label style={styles.label}>Email:</label>
               <input
@@ -87,10 +71,10 @@ const AuthComponent = () => {
                 Registrarse
               </button>
 
-              {localStorage.getItem('user') && (
-              <button type="button" onClick={handleLogout} style={styles.logoutButton}>
-                Cerrar Sesión
-              </button>
+              {sessionStorage.getItem('userData') && (
+                <p style={styles.loggedInMessage}>
+                  ¡Hola, {JSON.parse(sessionStorage.getItem('userData')).name}!
+                </p>
               )}
             </form>
           </>
@@ -101,11 +85,6 @@ const AuthComponent = () => {
 };
 
 const styles = {
-  logoutMessage: {
-    color: 'green',
-    textAlign: 'center',
-    marginBottom: '10px',
-  },
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -153,14 +132,11 @@ const styles = {
     padding: '10px',
     cursor: 'pointer',
   },
-  logoutButton: {
-    backgroundColor: '#000',
-    color: '#fff',
-    borderRadius: '5px',
-    padding: '10px',
-    cursor: 'pointer',
+  loggedInMessage: {
+    textAlign: 'center',
+    color: 'green',
+    marginBottom: '10px',
   },
-  
 };
 
 export default AuthComponent;

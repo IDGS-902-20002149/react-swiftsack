@@ -34,6 +34,19 @@ const Navbar = () => {
           <button className="navbar-toggler" type="button">
             <Link to="/profile" className="btn btn-dark"> PERFIL </Link>
           </button>
+
+          <button className="navbar-toggler" type="button">
+            <Link to="/pedidos" className="btn btn-dark"> PEDIDOS </Link>
+          </button>
+          <button className="navbar-toggler" type="button">
+          <Link to="/logout" className="btn btn-dark">Cerrar Sesión</Link>
+          </button>
+
+
+
+
+
+
           <div
             className="offcanvas offcanvas-start text-bg-dark"
             tabIndex="-1"

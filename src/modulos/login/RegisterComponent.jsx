@@ -7,10 +7,11 @@ const RegisterComponent = ({ toggleView }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [telefono, setTelefono] = useState('');
+  const [error, setError] = useState(null);
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('https://192.168.3.117:7267/api/auth/register', {
+      const response = await axios.post('https://localhost:7267/api/auth/register', {
         name,
         Email: email,
         Password: password,
@@ -26,10 +27,10 @@ const RegisterComponent = ({ toggleView }) => {
         // Puedes agregar más lógica aquí si es necesario
       } else {
         console.error('Error al registrar:', response.data);
-        // Handle other statuses or errors during registration
+        setError('Error al registrar. Por favor, verifica tus datos e intenta de nuevo.');
       }
     } catch (error) {
-      // Handle errors
+      setError('Error al registrar. Por favor, verifica tus datos e intenta de nuevo.');
     }
   };
 
@@ -37,6 +38,11 @@ const RegisterComponent = ({ toggleView }) => {
     <div style={styles.container}>
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Registrarse</h2>
+        {error && ( // Mostrar la alerta de error si hay un error
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        )}
         <form style={styles.form}>
           <label style={styles.label}>Nombre:</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} style={styles.input} />
