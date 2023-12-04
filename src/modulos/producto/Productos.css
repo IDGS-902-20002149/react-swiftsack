@@ -22,9 +22,7 @@ line-height: 1.2;
 color: #303030;
 }
 
-.text-white {
-  color: #303030 !important;
-}
+
 
 h5, .h5 {
   font-size: 1.25rem;
@@ -183,7 +181,7 @@ label {
 }
 .img-fixed-size {
   width: 100%; 
-  height: 320px; 
+  height: 320px !important; 
   object-fit: cover; 
   border-radius: 20px;
 }
