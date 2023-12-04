@@ -13,6 +13,11 @@ const Navbar = () => {
       navigate(`/proveedores`);
     };
 
+  const handleProductos = () => {
+      // Redirigir a la ruta de resultados con el término de búsqueda en la URL
+      navigate(`/productos`);
+    };
+
   const handleMateria = () => {
     // Redirigir a la ruta de resultados con el término de búsqueda en la URL
     navigate(`/materiaPrima`);
@@ -48,7 +53,7 @@ const Navbar = () => {
           <button onClick={handleMateria} className="navbar-toggler" type="button">
             <span className="btn btn-dark"> MATERIA PRIMA </span>
           </button>
-          <button className="navbar-toggler" type="button">
+          <button onClick={handleProductos} className="navbar-toggler" type="button">
             <span className="btn btn-dark"> PRODUCTOS </span>
           </button>
           <div
@@ -76,8 +81,8 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Link
+                  <a className="nav-link" href='/productos'>
+                    Productos
                   </a>
                 </li>
               </ul>
