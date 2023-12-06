@@ -1,17 +1,34 @@
-import imgCarousel1 from "../../assets/img/img-carousel-1.jpg";
-import imgCarousel2 from "../../assets/img/img-carousel-2.jpg";
-import imgCarousel3 from "../../assets/img/img-carousel-3.jpg";
-import offer1 from "../../assets/img/offer-1.jpg";
-import offer2 from "../../assets/img/offer-2.jpg";
-import mochilas from "../../assets/img/mochilas.png";
-import mochila1 from "../../assets/img/mochila-1.png";
-import mochila2 from "../../assets/img/mochila-2.png";
 import "./Home.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Home = () => {
+  const [productos, setProductos] = useState([]);
+
+  const cargarProductos = async () => {
+    try {
+      const response = await axios.get("https://localhost:7267/api/Productos");
+      const productosData = response.data.map((producto) => {
+        if (producto.foto) {
+          producto.foto = `data:image/png;base64,${producto.foto}`;
+        } else {
+          producto.foto = "../../../public/desconocido.png";
+        }
+        return producto;
+      });
+      setProductos(productosData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    cargarProductos();
+  }, []);
+
   return (
-    <>
-      <div className="container-fluid mb-3 mt-5">
+    <div>
+      <div className="container-fluid mb-3">
         <div className="row px-xl-5">
           <div className="col-lg-8">
             <div
@@ -35,7 +52,7 @@ const Home = () => {
                 >
                   <img
                     className="position-absolute w-100 h-100"
-                    src={imgCarousel1}
+                    src="../../../public/img-carousel-1.jpg"
                     style={{ objectFit: "cover" }}
                   />
                   <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
@@ -49,7 +66,10 @@ const Home = () => {
                         nuestras mochilas están diseñadas para elevar tu estilo
                         y satisfacer tus necesidades.
                       </p>
-                      <a className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp">
+                      <a
+                        className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
+                        href="/productos"
+                      >
                         Conoce nuestros productos
                       </a>
                     </div>
@@ -61,7 +81,7 @@ const Home = () => {
                 >
                   <img
                     className="position-absolute w-100 h-100"
-                    src={imgCarousel2}
+                    src="../../../public/img-carousel-2.jpg"
                     style={{ objectFit: "cover" }}
                   />
                   <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
@@ -75,7 +95,10 @@ const Home = () => {
                         único y te permita llevar todo lo que necesitas con
                         estilo y comodidad.
                       </p>
-                      <a className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp">
+                      <a
+                        className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
+                        href="/productos"
+                      >
                         Conoce nuestros productos
                       </a>
                     </div>
@@ -87,7 +110,7 @@ const Home = () => {
                 >
                   <img
                     className="position-absolute w-100 h-100"
-                    src={imgCarousel3}
+                    src="../../../public/img-carousel-3.jpg"
                     style={{ objectFit: "cover" }}
                   />
                   <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
@@ -100,7 +123,10 @@ const Home = () => {
                         moda para niños. Diseñadas pensando en la comodidad y el
                         estilo de los más pequeños.
                       </p>
-                      <a className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp">
+                      <a
+                        className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
+                        href="/productos"
+                      >
                         Conoce nuestros producto
                       </a>
                     </div>
@@ -111,51 +137,57 @@ const Home = () => {
           </div>
           <div className="col-lg-4">
             <div className="product-offer mb-30" style={{ height: "200px" }}>
-              <img className="img-fluid" src={offer1} alt="" />
-              <div className="offer-text p-2">
-                <h5 className="text-white mb-3 text-center">
+              <img
+                className="img-fluid"
+                src="../../../public/offer-1.jpg"
+                alt=""
+              />
+              <div className="offer-text">
+                <h3 className="text-white mb-3">
                   Descubre nuestros increibles productos
-                </h5>
-                <a className="btn btn-primary">Ver m&aacute;s</a>
+                </h3>
               </div>
             </div>
             <div
               className="product-offer mb-30 mt-4"
               style={{ height: "200px" }}
             >
-              <img className="img-fluid" src={offer2} alt="" />
-              <div className="offer-text p-2">
-                <h5 className="text-white mb-3 text-center">
+              <img
+                className="img-fluid"
+                src="../../../public/offer-2.jpg"
+                alt=""
+              />
+              <div className="offer-text">
+                <h3 className="text-white mb-3">
                   Descubre nuestros increibles productos
-                </h5>
-                <a className="btn btn-primary">Ver m&aacute;s</a>
+                </h3>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container-fluid pt-5">
+      <div className="container-fluid pt-5 ">
         <h2 className="section-title position-relative text-uppercase mx-xl-5 mb-4">
-          <span className="bg-secondary pr-3">¿Quiénes somos?</span>
+          <span className="bg-white pr-3">¿Quiénes somos?</span>
         </h2>
-        <div className="row px-xl-3">
-          <div className="col-lg-auto col-md-6 pb-4 d-flex align-items-center justify-content-center">
+        <div className="row px-xl-5">
+          <div className="col-lg-6 col-md-5  d-flex align-items-center justify-content-center">
             <div
               className="overflow-hidden"
-              style={{ maxWidth: "100%", height: "auto" }}
+              style={{ maxWidth: "80%", height: "auto" }}
             >
               <img
-                className="img-fluid"
-                src={mochilas}
+                className="img-fluid-home"
+                src="../../../public/mochilas.png"
                 alt="Mochilas SwiftSack"
-                style={{ width: "590px" }}
               />
             </div>
           </div>
 
-          <div className="col-lg-6 col-md-12 d-flex align-items-center">
-            <h2>
+          <div className="col-lg-6 col-md-12  d-flex align-items-center">
+            <h4 className="text-center">
+              <br />
               En SwiftSack, somos apasionados creadores de mochilas que fusionan
               magistralmente funcionalidad y estilo. Desde mochilas escolares
               hasta elegante equipaje de viaje, cada producto es una
@@ -166,14 +198,13 @@ const Home = () => {
               nuestras venas y se plasma en cada diseño único, una poderosa
               expresión de nuestra conexión humana con la esencia de quienes las
               llevan.
-            </h2>
+            </h4>
           </div>
         </div>
       </div>
-
       <div className="container-fluid pt-5 pb-3">
         <h2 className="section-title position-relative text-uppercase mx-xl-5 mb-4">
-          <span className="bg-secondary pr-3">Filosofia</span>
+          <span className="bg-white pr-3">Filosofia</span>
         </h2>
         <div className="row px-xl-5 pb-3 mt-5">
           <div className="col-lg-4 col-md-12 pb-4">
@@ -208,8 +239,8 @@ const Home = () => {
               <h2>Valores</h2>
               <ul>
                 <li>
-                  <span>Excelencia:</span> Perseguimos la perfección y ofrecemos
-                  calidad insuperable.
+                  Excelencia: Perseguimos la perfección y ofrecemos calidad
+                  insuperable.
                 </li>
                 <li>
                   Innovación: Buscamos constantemente nuevas ideas y soluciones
@@ -227,30 +258,50 @@ const Home = () => {
           </div>
         </div>
       </div>
+
       <div className="container-fluid pt-5 pb-3">
+        <h2 className="section-title position-relative text-uppercase mx-xl-5 mb-4">
+          <span className="bg-white pr-3">Productos Destacados</span>
+        </h2>
         <div className="row px-xl-5">
-          <div className="col-md-6">
-            <div className="product-offer mb-30" style={{ height: "300px" }}>
-              <img className="img-fluid" src={mochila1} alt="" />
-              <div className="offer-text">
-                <h3 className="text-white mb-3">
-                  Descubre nuestros increibles productos
-                </h3>
-                <a className="btn btn-primary">Ver m&aacute;s</a>
+          {productos
+            .slice(0, 8)
+
+            .map((producto) => (
+              <div
+                key={producto.id}
+                className="col-lg-3 col-md-6 col-sm-6 pb-1"
+              >
+                <div className="product-item mb-4">
+                  <div className="product-img position-relative overflow-hidden">
+                    <img
+                      className="img-fixed-size"
+                      src={producto.foto}
+                      alt={`Foto del producto ${producto.nombre}`}
+                    />
+                    <div className="product-action">
+                      <a
+                        href="/productos"
+                        className="btn btn-outline-dark btn-square"
+                      >
+                        Conoce mas<i className="bi bi-search"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div className="text-center py-4">
+                    <a
+                      className="h6 text-decoration-none text-truncate"
+                      href="/productos"
+                    >
+                      {producto.nombre}
+                    </a>
+                    <div className="d-flex align-items-center justify-content-center mt-2">
+                      <h5>${producto.costo}</h5>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="product-offer mb-30" style={{ height: "300px" }}>
-              <img className="img-fluid" src={mochila2} alt="" />
-              <div className="offer-text">
-                <h3 className="text-white mb-3">
-                  Descubre nuestros increibles productos
-                </h3>
-                <a className="btn btn-primary">Ver m&aacute;s</a>
-              </div>
-            </div>
-          </div>
+            ))}
         </div>
       </div>
 
@@ -282,22 +333,22 @@ const Home = () => {
                   Quick Shop
                 </h5>
                 <div className="d-flex flex-column justify-content-start">
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Home
                   </a>
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Our Shop
                   </a>
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Shop Detail
                   </a>
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Shopping Cart
                   </a>
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Checkout
                   </a>
-                  <a className="text-secondary">
+                  <a className="text-secondary" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Contact Us
                   </a>
                 </div>
@@ -307,22 +358,22 @@ const Home = () => {
                   My Account
                 </h5>
                 <div className="d-flex flex-column justify-content-start">
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Home
                   </a>
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Our Shop
                   </a>
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Shop Detail
                   </a>
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Shopping Cart
                   </a>
-                  <a className="text-secondary mb-2">
+                  <a className="text-secondary mb-2" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Checkout
                   </a>
-                  <a className="text-secondary">
+                  <a className="text-secondary" href="/productos">
                     <i className="fa fa-angle-right mr-2"></i>Contact Us
                   </a>
                 </div>
@@ -348,17 +399,29 @@ const Home = () => {
                   Follow Us
                 </h6>
                 <div className="d-flex">
-                  <a className="btn btn-primary btn-square mr-2">
-                    <i className="fab fa-twitter"></i>
+                  <a
+                    className="btn btn-primary btn-square m-1"
+                    href="/productos"
+                  >
+                    <i className="bi bi-twitter"></i>
                   </a>
-                  <a className="btn btn-primary btn-square mr-2">
-                    <i className="fab fa-facebook-f"></i>
+                  <a
+                    className="btn btn-primary btn-square m-1"
+                    href="/productos"
+                  >
+                    <i className="bi bi-facebook"></i>
                   </a>
-                  <a className="btn btn-primary btn-square mr-2">
-                    <i className="fab fa-linkedin-in"></i>
+                  <a
+                    className="btn btn-primary btn-square m-1"
+                    href="/productos"
+                  >
+                    <i className="bi bi-linkedin"></i>
                   </a>
-                  <a className="btn btn-primary btn-square">
-                    <i className="fab fa-instagram"></i>
+                  <a
+                    className="btn btn-primary btn-square m-1"
+                    href="/productos"
+                  >
+                    <i className="bi bi-instagram"></i>
                   </a>
                 </div>
               </div>
@@ -367,12 +430,15 @@ const Home = () => {
         </div>
         <div
           className="row border-top mx-xl-5 py-4"
-          style={{ borderColor: "rgba(256, 256, 256, 0.1) !important" }}
+          style={{ borderColor: "rgba(256, 256, 256, 0.1)", important: "true" }}
         >
           <div className="col-md-6 px-xl-0">
             <p className="mb-md-0 text-center text-md-left text-secondary">
-              &copy; <a className="text-primary">Domain</a>. All Rights
-              Reserved. Designed by
+              &copy;
+              <a className="text-primary" href="/productos">
+                Domain
+              </a>
+              . All Rights Reserved. Designed by
               <a className="text-primary" href="https://htmlcodex.com">
                 HTML Codex
               </a>
@@ -383,7 +449,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

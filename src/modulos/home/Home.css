@@ -1,18 +1,20 @@
-  body{
-    background-color: #303030;
-  }
-  
   h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     margin-bottom: 0.5rem;
-    color: #fff;
+    color: #000;
+    
   }
 
   h2 {
-    font-weight: 500;
-    font-size: 1.5rem; /* Ajusta el tamaño de fuente según tus preferencias */
+    font-weight: 100;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
     text-align: justify;
+    line-height: 32px;
+    font-family: Roboto, sans-serif;
+    letter-spacing: .0125em;
+    margin: 0 0 16px;
+    color: #000 !important;
   }
 
   h3, h4, h5, h6,
@@ -20,7 +22,7 @@
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.2;
-  color: #3D464D;
+  color: #fff;
   }
 
   h6, .h6 {
@@ -32,14 +34,14 @@
   }
 
   .text-white {
-    color: #fff !important;
+    color: #000 !important;
   }
 
   .text-uppercase {
     text-transform: uppercase !important;
   }
 
-  .img-fluid {
+  .img-fluid-home {
     max-width: 100%;
     height: auto;
   }
@@ -237,11 +239,6 @@
     background-color: #303030 !important;
   }
 
-  /*Caterogias start*/
-  .cat-item {
-    background: #FFFFFF;
-    transition: .5s;
-  }
 
   .cat-item:hover {
     background: #D8C3B2;
@@ -397,14 +394,6 @@
     color: #6c757d !important;
   }
   /*Productos Destacados end*/
-
-  p {
-    color: #fff;
-  }
-
-  li{
-    color: #fff;
-  }
 
   .mission-box h2,
     .vision-box h2,
