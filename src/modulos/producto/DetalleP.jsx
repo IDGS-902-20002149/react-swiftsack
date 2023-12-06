@@ -30,6 +30,7 @@ const DetalleP = () => {
       console.log('Usuario: ' + userData.name + ' recuperado');
     } else {
       console.log('El objeto no fue encontrado en sessionStorage.');
+      alert('Es necesario que inicies sesion primero')
       navigate(`/login`);
 
     }
