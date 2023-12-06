@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const ProfileComponent = () => {
   const [user, setUser] = useState({
     id: 0,
-    name: '',
-    email: '',
-    telefono: '',
+    name: "",
+    email: "",
+    telefono: "",
   });
   const [showAlert, setShowAlert] = useState(false); // Nuevo estado para controlar la visibilidad de la alerta
 
@@ -23,8 +23,8 @@ const ProfileComponent = () => {
           setUser(response.data);
           console.log('Perfil de usuario cargado correctamente:', response.data);
         })
-        .catch(error => {
-          console.error('Error al obtener el perfil:', error);
+        .catch((error) => {
+          console.error("Error al obtener el perfil:", error);
         });
     } else {
       console.log('No se encontró usuario en sessionStorage');
@@ -39,10 +39,10 @@ const ProfileComponent = () => {
         console.log('Perfil actualizado:', response.data);
         setShowAlert(true); // Mostrar la alerta al actualizar exitosamente
       } else {
-        console.error('Error al actualizar el perfil:', response.data);
+        console.error("Error al actualizar el perfil:", response.data);
       }
     } catch (error) {
-      console.error('Error al actualizar el perfil:', error);
+      console.error("Error al actualizar el perfil:", error);
     }
   };
 
@@ -64,15 +64,38 @@ const ProfileComponent = () => {
         )}
         <form style={styles.form}>
           <label style={styles.label}>Nombre:</label>
-          <input type="text" name="name" value={user.name} onChange={handleChange} style={styles.input} />
+          <input
+            type="text"
+            name="name"
+            value={user.name}
+            onChange={handleChange}
+            style={styles.input}
+          />
 
           <label style={styles.label}>Email:</label>
-          <input type="text" name="email" value={user.email} onChange={handleChange} style={styles.input} disabled />
+          <input
+            type="text"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+            style={styles.input}
+            disabled
+          />
 
           <label style={styles.label}>Teléfono:</label>
-          <input type="text" name="telefono" value={user.telefono} onChange={handleChange} style={styles.input} />
+          <input
+            type="text"
+            name="telefono"
+            value={user.telefono}
+            onChange={handleChange}
+            style={styles.input}
+          />
 
-          <button type="button" onClick={handleUpdateProfile} style={styles.loginButton}>
+          <button
+            type="button"
+            onClick={handleUpdateProfile}
+            style={styles.loginButton}
+          >
             Actualizar Perfil
           </button>
         </form>

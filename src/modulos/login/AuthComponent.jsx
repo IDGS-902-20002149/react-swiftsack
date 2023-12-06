@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import axios from 'axios';
 import RegisterComponent from './RegisterComponent';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import RegisterComponent from "./RegisterComponent"; // Importa el nuevo componente
 
 const AuthComponent = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showRegister, setShowRegister] = useState(false);
+  const [logoutMessage, setLogoutMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -25,13 +31,24 @@ const AuthComponent = () => {
       }
     } catch (error) {
       if (error.response) {
-        console.error('Error al iniciar sesión:', error.response.data);
+        console.error("Error al iniciar sesión:", error.response.data);
       } else if (error.request) {
-        console.error('Error al realizar la solicitud:', error.request);
+        console.error("Error al realizar la solicitud:", error.request);
       } else {
-        console.error('Error en la configuración de la solicitud:', error.message);
+        console.error(
+          "Error en la configuración de la solicitud:",
+          error.message
+        );
       }
     }
+  };
+
+  const handleLogout = () => {
+    // Eliminar información del usuario al cerrar sesión
+    localStorage.removeItem("user");
+    setLogoutMessage("Sesión cerrada correctamente");
+
+    // Otros pasos que puedas necesitar al cerrar sesión
   };
 
   const toggleView = () => {
@@ -46,6 +63,9 @@ const AuthComponent = () => {
         ) : (
           <>
             <h2 style={styles.heading}>Iniciar Sesión</h2>
+            {logoutMessage && (
+              <p style={styles.logoutMessage}>{logoutMessage}</p>
+            )}
             <form style={styles.form}>
               <label style={styles.label}>Email:</label>
               <input
@@ -63,18 +83,33 @@ const AuthComponent = () => {
                 style={styles.input}
               />
 
-              <button type="button" onClick={handleLogin} style={styles.loginButton}>
+              <button
+                type="button"
+                onClick={handleLogin}
+                style={styles.loginButton}
+              >
                 Iniciar Sesión
               </button>
 
-              <button type="button" onClick={toggleView} style={styles.registerButton}>
+              <button
+                type="button"
+                onClick={toggleView}
+                style={styles.registerButton}
+              >
                 Registrarse
               </button>
-
               {sessionStorage.getItem('userData') && (
                 <p style={styles.loggedInMessage}>
                   ¡Hola, {JSON.parse(sessionStorage.getItem('userData')).name}!
                 </p>
+              {localStorage.getItem("user") && (
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  style={styles.logoutButton}
+                >
+                  Cerrar Sesión
+                </button>
               )}
             </form>
           </>
@@ -86,51 +121,51 @@ const AuthComponent = () => {
 
 const styles = {
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
   },
   formContainer: {
-    width: '300px',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#fff',
+    width: "300px",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#fff",
   },
   heading: {
-    textAlign: 'center',
-    marginBottom: '20px',
-    color: '#333',
+    textAlign: "center",
+    marginBottom: "20px",
+    color: "#333",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   label: {
-    marginBottom: '5px',
-    color: '#555',
+    marginBottom: "5px",
+    color: "#555",
   },
   input: {
-    marginBottom: '10px',
-    padding: '8px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
+    marginBottom: "10px",
+    padding: "8px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
   },
   loginButton: {
-    backgroundColor: '#000',
-    color: '#fff',
-    borderRadius: '5px',
-    padding: '10px',
-    cursor: 'pointer',
-    marginBottom: '10px',
+    backgroundColor: "#000",
+    color: "#fff",
+    borderRadius: "5px",
+    padding: "10px",
+    cursor: "pointer",
+    marginBottom: "10px",
   },
   registerButton: {
-    backgroundColor: '#000',
-    color: '#fff',
-    borderRadius: '5px',
-    padding: '10px',
-    cursor: 'pointer',
+    backgroundColor: "#000",
+    color: "#fff",
+    borderRadius: "5px",
+    padding: "10px",
+    cursor: "pointer",
   },
   loggedInMessage: {
     textAlign: 'center',

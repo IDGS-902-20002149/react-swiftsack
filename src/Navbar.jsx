@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -9,19 +9,9 @@ const Navbar = () => {
     navigate(`/`);
   };
 
-  const handleProveedores = () => {
-      // Redirigir a la ruta de resultados con el término de búsqueda en la URL
-      navigate(`/proveedores`);
-    };
-
   const handleProductos = () => {
-      // Redirigir a la ruta de resultados con el término de búsqueda en la URL
-      navigate(`/productos`);
-    };
-
-  const handleMateria = () => {
     // Redirigir a la ruta de resultados con el término de búsqueda en la URL
-    navigate(`/materiaPrima`);
+    navigate(`/productos`);
   };
 
   return (
@@ -48,20 +38,29 @@ const Navbar = () => {
           <button onClick={handleHome} className="navbar-toggler" type="button">
             <span className="btn btn-dark"> HOME </span>
           </button>
-          <button onClick={handleProveedores} className="navbar-toggler" type="button">
-            <span className="btn btn-dark"> PROVEEDORES </span>
-          </button>
-          <button onClick={handleMateria} className="navbar-toggler" type="button">
-            <span className="btn btn-dark"> MATERIA PRIMA </span>
-          </button>
-          <button onClick={handleProductos} className="navbar-toggler" type="button">
-            <span className="btn btn-dark"> PRODUCTOS </span>
+          <button
+            onClick={handleProductos}
+            className="navbar-toggler"
+            type="button"
+          >
+            <span className="btn btn-dark"> NUESTROS PRODUCTOS </span>
           </button>
           <button className="navbar-toggler" type="button">
-            <Link to="/login" className="btn btn-dark"> LOGIN </Link>
+            <Link to="/login" className="btn btn-dark">
+              {" "}
+              LOGIN{" "}
+            </Link>
           </button>
           <button className="navbar-toggler" type="button">
-            <Link to="/profile" className="btn btn-dark"> PERFIL </Link>
+            <Link to="/profile" className="btn btn-dark">
+              {" "}
+              PERFIL{" "}
+            </Link>
+          </button>
+          <button className="navbar-toggler" type="button">
+            <Link to="/shopping-car" className="btn btn-dark">
+              <i className="bi bi-cart4"></i>
+            </Link>
           </button>
 
           <button className="navbar-toggler" type="button">
@@ -96,12 +95,12 @@ const Navbar = () => {
             <div className="offcanvas-body">
               <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li className="nav-item">
-                <Link to="/" className="nav-link">
+                  <Link to="/" className="nav-link">
                     Home
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href='/productos'>
+                  <a className="nav-link" href="/productos">
                     Productos
                   </a>
                 </li>
