@@ -3,38 +3,34 @@ import axios from "axios";
 
 // eslint-disable-next-line react/prop-types
 const RegisterComponent = ({ toggleView }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [telefono, setTelefono] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [error, setError] = useState(null);
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post(
-        "https://127.0.0.1:7267/api/Auth/register",
-
-        //const response = await axios.post('https://192.168.3.117:7267/api/auth/register',
-        {
-          name,
-          Email: email,
-          Password: password,
-          Telefono: telefono,
-          active: true,
-          confirmed_at: new Date().toISOString(),
-          roleId: 3,
-        }
-      );
+      const response = await axios.post('https://localhost:7267/api/auth/register', {
+        name,
+        Email: email,
+        Password: password,
+        Telefono: telefono,
+        active: true,
+        confirmed_at: new Date().toISOString(),
+        roleId: 3,
+      });
 
       if (response.status === 200) {
         console.log("Registro exitoso:", response.data);
         toggleView(); // Cambiar a la vista de inicio de sesión después del registro exitoso
         // Puedes agregar más lógica aquí si es necesario
       } else {
-        console.error("Error al registrar:", response.data);
-        // Handle other statuses or errors during registration
+        console.error('Error al registrar:', response.data);
+        setError('Error al registrar. Por favor, verifica tus datos e intenta de nuevo.');
       }
     } catch (error) {
-      // Handle errors
+      setError('Error al registrar. Por favor, verifica tus datos e intenta de nuevo.');
     }
   };
 
@@ -42,6 +38,11 @@ const RegisterComponent = ({ toggleView }) => {
     <div style={styles.container}>
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Registrarse</h2>
+        {error && ( // Mostrar la alerta de error si hay un error
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        )}
         <form style={styles.form}>
           <label style={styles.label}>Nombre:</label>
           <input

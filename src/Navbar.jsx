@@ -62,6 +62,19 @@ const Navbar = () => {
               <i className="bi bi-cart4"></i>
             </Link>
           </button>
+
+          <button className="navbar-toggler" type="button">
+            <Link to="/pedidos" className="btn btn-dark"> PEDIDOS </Link>
+          </button>
+          <button className="navbar-toggler" type="button">
+          <Link to="/logout" className="btn btn-dark">Cerrar Sesión</Link>
+          </button>
+
+
+
+
+
+
           <div
             className="offcanvas offcanvas-start text-bg-dark"
             tabIndex="-1"
