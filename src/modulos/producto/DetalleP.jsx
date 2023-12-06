@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './DetalleP.css'
+
 
 const DetalleP = () => {
   const { id } = useParams();
+  const [idP, setIdp] = useState(0);
   const [producto, setProducto] = useState(null);
-
+  const [usuario, setUsuario] = useState(null);
   const [cantidad, setCantidad] = useState(1);
+  const navigate = useNavigate();
 
   const restar = () => {
     if (cantidad > 1) {
@@ -19,8 +22,37 @@ const DetalleP = () => {
     setCantidad(cantidad + 1);
   };
 
-  const addCarrito = (cantidad) => {
-    console.log(`Adding ${cantidad} items to the cart`);
+  const obtenerUsuario = () => {
+    const userData = JSON.parse(localStorage.getItem('user'));
+
+    if (userData) {
+      setUsuario(userData);
+      console.log('Usuario: ' + userData.name + ' recuperado');
+    } else {
+      console.log('El objeto no fue encontrado en sessionStorage.');
+      alert('Es necesario que inicies sesion primero')
+      navigate(`/login`);
+
+    }
+  };
+
+  const addCarrito = async (cantidad) => {
+    obtenerUsuario()
+   
+      try {
+        const carrito = {
+          idCarrito: 0,
+          userId: usuario.id,
+          productId: idP,
+          cantidad: cantidad
+        };
+        await axios.post('https://localhost:7267/api/Carrito', carrito);
+        alert('Producto agregado al carrito');
+       
+      } catch (error) {
+        console.error(error);
+      }
+    
   };
 
   useEffect(() => {
@@ -34,6 +66,7 @@ const DetalleP = () => {
             productoData.foto = '../../assets/img/desconocido.png';
           }
         setProducto(productoData);
+        setIdp(productoData.id)
         
       } catch (error) {
         console.error(error);
