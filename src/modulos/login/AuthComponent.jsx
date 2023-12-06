@@ -13,7 +13,7 @@ const AuthComponent = () => {
       // Limpiar mensaje de cierre de sesión al intentar iniciar sesión
       setLogoutMessage('');
 
-      const response = await axios.post('https://192.168.3.117:7267/api/auth/login', {
+      const response = await axios.post('https://localhost:7267/api/auth/login', {
         Email: email,
         Password: password,
       });

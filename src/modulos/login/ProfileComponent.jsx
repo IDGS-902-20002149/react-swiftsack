@@ -15,7 +15,7 @@ const ProfileComponent = () => {
 
     if (storedUser) {
       // Obtener el perfil del usuario desde la API
-      axios.get(`https://192.168.3.117:7267/api/auth/profile/${storedUser.id}`)
+      axios.get(`https://localhost:7267/api/auth/profile/${storedUser.id}`)
         .then(response => {
           setUser(response.data);
         })
@@ -27,7 +27,7 @@ const ProfileComponent = () => {
 
   const handleUpdateProfile = async () => {
     try {
-      const response = await axios.put(`https://192.168.3.117:7267/api/auth/profile/${user.id}`, user);
+      const response = await axios.put(`https://localhost:7267/api/auth/profile/${user.id}`, user);
 
       if (response.status === 200) {
         console.log('Perfil actualizado:', response.data);

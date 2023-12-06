@@ -10,7 +10,7 @@ const RegisterComponent = ({ toggleView }) => {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('https://192.168.3.117:7267/api/auth/register', {
+      const response = await axios.post('https://localhost:7267/api/auth/register', {
         name,
         Email: email,
         Password: password,
