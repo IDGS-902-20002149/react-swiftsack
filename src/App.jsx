@@ -3,10 +3,13 @@ import Home from "./modulos/home/Home";
 import Navbar from "./Navbar";
 import AuthComponent from "./modulos/login/AuthComponent";
 import ProfileComponent from "./modulos/login/ProfileComponent";
-import Proveedores from "./modulos/proveedor/Proveedores";
-import MateriaPrima from "./modulos/materiaP/MateriaPrima";
-import Productos from "./modulos/producto/Productos"
+import PedidosMainCComponent from "./modulos/pedidos/PedidosMainCComponent";
+import PedidosCComponent from "./modulos/pedidos/PedidosCComponent";
+import LogoutComponent from "./modulos/login/LogoutComponent";
+import Productos from "./modulos/producto/Productos";
 import DetalleP from "./modulos/producto/DetalleP";
+import Carrito from "./modulos/carrito/Carrito";
+import GoToPay from "./modulos/carrito/GoToPay";
 
 function App() {
   return (
@@ -17,10 +20,13 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<AuthComponent />} />
           <Route path="/profile" element={<ProfileComponent />} />
-          <Route path="/proveedores" element={<Proveedores/>}></Route>
-          <Route path="/productos" element={<Productos/>}></Route>
-          <Route path="/detalleProducto/:id" element={<DetalleP/>}></Route>
-          <Route path="/materiaPrima" element={<MateriaPrima/>}></Route>
+          <Route path="/pedidos" element={<PedidosMainCComponent />} /> {/* Agregado */}
+          <Route path="/ver-detalle/:id" element={<PedidosCComponent/>} />
+          <Route path="/logout" element={<LogoutComponent />} /> {/* Agrega esta línea */}
+          <Route path="/productos" element={<Productos />}></Route>
+          <Route path="/detalleProducto/:id" element={<DetalleP />}></Route>
+          <Route path="/shopping-car" element={<Carrito />}></Route>
+          <Route path="/GoToPay" element={<GoToPay />}></Route>
         </Routes>
       </BrowserRouter>
     </>

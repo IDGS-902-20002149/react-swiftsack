@@ -1,3 +1,4 @@
+import "./Home.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import './Home.css'
@@ -9,12 +10,12 @@ const Home = () => {
 
   const cargarProductos = async () => {
     try {
-      const response = await axios.get('https://localhost:7267/api/Productos');
+      const response = await axios.get("https://localhost:7267/api/Productos");
       const productosData = response.data.map((producto) => {
         if (producto.foto) {
           producto.foto = `data:image/png;base64,${producto.foto}`;
         } else {
-          producto.foto = '../../../public/desconocido.png';
+          producto.foto = "../../../public/desconocido.png";
         }
         return producto;
       });
@@ -362,7 +363,6 @@ const Home = () => {
       </div>
     </div>
 </div>
-    
   );
 };
 
