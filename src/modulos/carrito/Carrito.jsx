@@ -5,7 +5,9 @@ import axios from "axios";
 const Carrito = () => {
   const [dataSource, setDataSource] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
-  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('userData')));
+  const [user, setUser] = useState(
+    JSON.parse(sessionStorage.getItem("userData"))
+  );
 
   const [carrito, setCarrito] = useState([]);
   const [items, setItems] = useState([]);
@@ -91,90 +93,98 @@ const Carrito = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row px-xl-5">
-        <div className="col-lg-8 table-responsive mb-5">
-          <table className="table table-light table-borderless table-hover text-center mb-0">
-            <thead className="thead-dark">
-              <tr>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Total</th>
-                <th>Eliminar</th>
-              </tr>
-            </thead>
-            <tbody className="align-middle">
-              {dataSource.map((item) => (
-                <tr key={item.idCarrito}>
-                  <td className="align-middle">
-                    <img
-                      src="img/product-1.jpg"
-                      alt=""
-                      style={{ width: "50px" }}
-                    />
-                    {item.nombre}
-                  </td>
-                  <td className="align-middle">${item.precio}</td>
-                  <td className="align-middle">
-                    <div
-                      className="input-group quantity mx-auto"
-                      style={{ width: "100px" }}
-                    >
-                      <input
-                        type="text"
-                        className="form-control form-control-sm border-0 text-center"
-                        value={item.cantidad}
-                        readOnly
-                      />
-                    </div>
-                  </td>
-                  <td className="align-middle">${item.subtotal}</td>
-                  <td className="align-middle">
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => eliminarItem(item.idCarrito)}
-                    >
-                      <i className="bi bi-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="col-lg-4">
-          <h3 className="section-title position-relative text-uppercase mt-2 text-light">
-            <span className="bg-secondary pr-3">Resumen</span>
-          </h3>
-          <div className="bg-light p-3 mb-5">
-            <div className="border-bottom pb-2">
-              <div className="d-flex justify-content-between mb-3">
-                <h6>Subtotal</h6>
-                <h6>${subtotal.toFixed(2)}</h6>
-              </div>
-              <div className="d-flex justify-content-between">
-                <h6 className="font-weight-medium">Env&iacute;o</h6>
-                <h6 className="font-weight-medium">$100</h6>
-              </div>
+    <>
+      {!carrito ? (
+        <div className="container-fluid">
+          <div className="row px-xl-5">
+            <div className="col-lg-8 table-responsive mb-5">
+              <table className="table table-light table-borderless table-hover text-center mb-0">
+                <thead className="thead-dark">
+                  <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody className="align-middle">
+                  {dataSource.map((item) => (
+                    <tr key={item.idCarrito}>
+                      <td className="align-middle">
+                        <img
+                          src="img/product-1.jpg"
+                          alt=""
+                          style={{ width: "50px" }}
+                        />
+                        {item.nombre}
+                      </td>
+                      <td className="align-middle">${item.precio}</td>
+                      <td className="align-middle">
+                        <div
+                          className="input-group quantity mx-auto"
+                          style={{ width: "100px" }}
+                        >
+                          <input
+                            type="text"
+                            className="form-control form-control-sm border-0 text-center"
+                            value={item.cantidad}
+                            readOnly
+                          />
+                        </div>
+                      </td>
+                      <td className="align-middle">${item.subtotal}</td>
+                      <td className="align-middle">
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => eliminarItem(item.idCarrito)}
+                        >
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <div className="pt-2">
-              <div className="d-flex justify-content-between mt-2">
-                <h3>Total</h3>
-                <h3>${(subtotal + 100).toFixed(2)}</h3>
+            <div className="col-lg-4">
+              <h3 className="section-title position-relative text-uppercase mt-2 text-light">
+                <span className="bg-secondary pr-3">Resumen</span>
+              </h3>
+              <div className="bg-light p-3 mb-5">
+                <div className="border-bottom pb-2">
+                  <div className="d-flex justify-content-between mb-3">
+                    <h6>Subtotal</h6>
+                    <h6>${subtotal.toFixed(2)}</h6>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <h6 className="font-weight-medium">Env&iacute;o</h6>
+                    <h6 className="font-weight-medium">$100</h6>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <div className="d-flex justify-content-between mt-2">
+                    <h3>Total</h3>
+                    <h3>${(subtotal + 100).toFixed(2)}</h3>
+                  </div>
+                  <button
+                    className="btn btn-success font-weight-bold"
+                    style={{ color: "primary" }}
+                    onClick={() => navigate("/GoToPay")}
+                  >
+                    Proceder al pago
+                  </button>
+                </div>
               </div>
-              <button
-                className="btn btn-success font-weight-bold"
-                style={{ color: "primary" }}
-                onClick={() => navigate("/GoToPay")}
-              >
-                Proceder al pago
-              </button>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        <div className="container-fluid">
+          <img src="" alt="" />
+        </div>
+      )}
+    </>
   );
 };
 
