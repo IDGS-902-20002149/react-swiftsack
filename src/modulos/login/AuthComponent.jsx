@@ -1,33 +1,33 @@
-import { useState } from 'react';
-import axios from 'axios';
-import RegisterComponent from './RegisterComponent';
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import RegisterComponent from "./RegisterComponent"; // Importa el nuevo componente
+import RegisterComponent from "./RegisterComponent";
 
 const AuthComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showRegister, setShowRegister] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState("");
-  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://localhost:7267/api/auth/login', {
-        Email: email,
-        Password: password,
-      });
+      const response = await axios.post(
+        "https://localhost:7267/api/auth/login",
+        {
+          Email: email,
+          Password: password,
+        }
+      );
 
       if (response.status === 200) {
-        console.log('Usuario autenticado:', response.data);
+        console.log("Usuario autenticado:", response.data);
 
-        sessionStorage.setItem('userData', JSON.stringify(response.data));
-        console.log('Usuario almacenado en sessionStorage:', sessionStorage.getItem('userData'));
-
+        sessionStorage.setItem("userData", JSON.stringify(response.data));
+        console.log(
+          "Usuario almacenado en sessionStorage:",
+          sessionStorage.getItem("userData")
+        );
       } else {
-        console.error('Error al iniciar sesión:', response.data);
+        console.error("Error al iniciar sesión:", response.data);
       }
     } catch (error) {
       if (error.response) {
@@ -98,10 +98,6 @@ const AuthComponent = () => {
               >
                 Registrarse
               </button>
-              {sessionStorage.getItem('userData') && (
-                <p style={styles.loggedInMessage}>
-                  ¡Hola, {JSON.parse(sessionStorage.getItem('userData')).name}!
-                </p>
               {localStorage.getItem("user") && (
                 <button
                   type="button"
@@ -168,9 +164,9 @@ const styles = {
     cursor: "pointer",
   },
   loggedInMessage: {
-    textAlign: 'center',
-    color: 'green',
-    marginBottom: '10px',
+    textAlign: "center",
+    color: "green",
+    marginBottom: "10px",
   },
 };
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Carrito = () => {
   const [dataSource, setDataSource] = useState([]);
@@ -12,15 +13,25 @@ const Carrito = () => {
   const navigate = useNavigate();
 
   const eliminarItem = async (id) => {
-    try {
-      await fetch(`https://127.0.0.1:7267/api/Carrito/${id}`, {
-        method: "DELETE",
+    // Lógica para actualizar el proveedor
+    const apiUrl = `https://127.0.0.1:7267/api/Carrito?Id=${id}`;
+    const apiUrlGet = `https://127.0.0.1:7267/api/Carrito/obtener-carrito/${user.id}`;
+
+    axios
+      .delete(apiUrl)
+      .then((response) => {
+        console.log("Item eliminado con éxito:", response.data);
+
+        // Actualizar la lista local
+        // Recargar la lista de proveedores después de insertar uno nuevo
+        axios
+          .get(apiUrlGet)
+          .then((response) => setCarrito(response.data))
+          .catch((error) => console.error("Error fetching data:", error));
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el carrito:", error);
       });
-      console.log(`Elemento eliminado correctamente con id: ${id}`);
-      fetchData(); // Actualizar el estado de items y carrito después de la eliminación
-    } catch (error) {
-      console.error("Error al eliminar el elemento:", error);
-    }
   };
 
   // Obtener carrito e items de forma asíncrona
