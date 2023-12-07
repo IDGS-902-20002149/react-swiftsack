@@ -21,33 +21,37 @@ const DetalleP = () => {
     setCantidad(cantidad + 1);
   };
 
-  const obtenerUsuario = () => {
-    const userData = JSON.parse(localStorage.getItem("user"));
+  // const obtenerUsuario = () => {
+    
+  // };
+
+  const addCarrito = async (cantidad) => {
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
 
     if (userData) {
-      setUsuario(userData.id);
-      console.log("Usuario: " + userData.id + " recuperado");
+      // setUsuario(userData.id);
+      console.log('Usuario: ' + userData.id + ' recuperado');
+      const carrito = {
+        idCarrito: 0,
+        userId: userData.id,
+        productId: idP,
+        cantidad: cantidad
+      };
+      const apiUrl = 'https://localhost:7267/api/Carrito';
+  axios.post(apiUrl, carrito)
+    .then(response => {
+      alert('Carrito registrado con éxito', response.data);
+     
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+          
+       
+    });
     } else {
       console.log("El objeto no fue encontrado en sessionStorage.");
       alert("Es necesario que inicies sesion primero");
       navigate(`/login`);
-    }
-  };
-
-  const addCarrito = async (cantidad) => {
-    obtenerUsuario();
-
-    try {
-      const carrito = {
-        idCarrito: 0,
-        userId: usuario,
-        productId: idP,
-        cantidad: cantidad,
-      };
-      await axios.post("https://localhost:7267/api/Carrito", carrito);
-      alert("Producto agregado al carrito");
-    } catch (error) {
-      console.error(error);
     }
   };
 
