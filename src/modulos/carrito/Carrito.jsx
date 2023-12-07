@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import shoppingCard from "../../assets/img/carrito.png";
 
 const Carrito = () => {
   const [dataSource, setDataSource] = useState([]);
@@ -94,7 +95,19 @@ const Carrito = () => {
 
   return (
     <>
-      {!carrito ? (
+      {carrito ? (
+        <div className="container-fluid">
+          <div className="d-flex justify-content-center">
+            <div className="text-center">
+              <img src={shoppingCard} alt="" width="200px" />
+              <h4 className="mt-4">
+                Tu carrito está vacío <i className="bi bi-emoji-frown"></i>
+              </h4>
+              <h6>Agrega productos a tu carrito</h6>
+            </div>
+          </div>
+        </div>
+      ) : (
         <div className="container-fluid">
           <div className="row px-xl-5">
             <div className="col-lg-8 table-responsive mb-5">
@@ -178,10 +191,6 @@ const Carrito = () => {
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="container-fluid">
-          <img src="" alt="" />
         </div>
       )}
     </>
