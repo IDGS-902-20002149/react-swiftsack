@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Carrito = () => {
   const [dataSource, setDataSource] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('userData')));
 
   const [carrito, setCarrito] = useState([]);
   const [items, setItems] = useState([]);
@@ -13,7 +13,7 @@ const Carrito = () => {
 
   const eliminarItem = async (id) => {
     try {
-      await fetch(`https://127.0.0.1:7267/api/Carrito/${id}`, {
+      await fetch(`https://localhost:7267/api/Carrito/${id}`, {
         method: "DELETE",
       });
       console.log(`Elemento eliminado correctamente con id: ${id}`);
@@ -28,10 +28,10 @@ const Carrito = () => {
     try {
       const [carritoData, itemsData] = await Promise.all([
         fetch(
-          `https://127.0.0.1:7267/api/Carrito/obtener-carrito/${user.id}`
+          `https://localhost:7267/api/Carrito/obtener-carrito/${user.id}`
         ).then((response) => response.json()),
         fetch(
-          `https://127.0.0.1:7267/api/Carrito/obtener-items/${user.id}`
+          `https://localhost:7267/api/Carrito/obtener-items/${user.id}`
         ).then((response) => response.json()),
       ]);
 
