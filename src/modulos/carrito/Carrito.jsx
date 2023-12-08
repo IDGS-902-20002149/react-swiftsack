@@ -97,18 +97,6 @@ const Carrito = () => {
     <>
       {carrito ? (
         <div className="container-fluid">
-          <div className="d-flex justify-content-center">
-            <div className="text-center">
-              <img src={shoppingCard} alt="" width="200px" />
-              <h4 className="mt-4">
-                Tu carrito está vacío <i className="bi bi-emoji-frown"></i>
-              </h4>
-              <h6>Agrega productos a tu carrito</h6>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="container-fluid">
           <div className="row px-xl-5">
             <div className="col-lg-8 table-responsive mb-5">
               <table className="table table-light table-borderless table-hover text-center mb-0">
@@ -162,7 +150,7 @@ const Carrito = () => {
             </div>
             <div className="col-lg-4">
               <h3 className="section-title position-relative text-uppercase mt-2 text-light">
-                <span className="bg-secondary pr-3">Resumen</span>
+                <span>Resumen</span>
               </h3>
               <div className="bg-light p-3 mb-5">
                 <div className="border-bottom pb-2">
@@ -189,6 +177,18 @@ const Carrito = () => {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid">
+          <div className="d-flex justify-content-center">
+            <div className="text-center">
+              <img src={shoppingCard} alt="" width="200px" />
+              <h4 className="mt-4">
+                Tu carrito está vacío <i className="bi bi-emoji-frown"></i>
+              </h4>
+              <h6>Agrega productos a tu carrito</h6>
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "./DetalleP.css";
+import Swal from "sweetalert2";
 
 const DetalleP = () => {
   const { id } = useParams();
@@ -22,32 +23,36 @@ const DetalleP = () => {
   };
 
   // const obtenerUsuario = () => {
-    
+
   // };
 
   const addCarrito = async (cantidad) => {
-    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
 
     if (userData) {
       // setUsuario(userData.id);
-      console.log('Usuario: ' + userData.id + ' recuperado');
+      console.log("Usuario: " + userData.id + " recuperado");
       const carrito = {
         idCarrito: 0,
         userId: userData.id,
         productId: idP,
-        cantidad: cantidad
+        cantidad: cantidad,
       };
-      const apiUrl = 'https://localhost:7267/api/Carrito';
-  axios.post(apiUrl, carrito)
-    .then(response => {
-      alert('Carrito registrado con éxito', response.data);
-     
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-          
-       
-    });
+      const apiUrl = "https://localhost:7267/api/Carrito";
+      axios
+        .post(apiUrl, carrito)
+        .then((response) => {
+          console.log("Producto agregado: ", response);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+      Swal.fire({
+        title: "Producto añadido",
+        text: "Tu producto ah sido agregado correctamente",
+        icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
     } else {
       console.log("El objeto no fue encontrado en sessionStorage.");
       alert("Es necesario que inicies sesion primero");
