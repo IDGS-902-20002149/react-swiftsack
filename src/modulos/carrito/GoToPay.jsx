@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./Carrito.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const GoToPay = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(
+    JSON.parse(sessionStorage.getItem("userData"))
+  );
   const [dataSource, setDataSource] = useState([]);
   const [tarjetas, setTarjetas] = useState([]);
   const [direcciones, setDirecciones] = useState([]);
@@ -19,7 +22,6 @@ const GoToPay = () => {
   const [carrito, setCarrito] = useState([]);
   const [items, setItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
-  const [detallesPedido, setDetallesPedido] = useState([]);
 
   const [newDireccion, setNewDireccion] = useState({
     idDireccion: 0,
@@ -83,7 +85,6 @@ const GoToPay = () => {
   };
 
   useEffect(() => {
-    // Obtener datos solo cuando cambia user.id
     fetchData();
   }, [user]);
 
@@ -127,17 +128,23 @@ const GoToPay = () => {
   const handleRealizarPedido = async () => {
     // Validar que se haya seleccionado una dirección
     if (!direccionSelect || Object.keys(direccionSelect).length === 0) {
-      alert(
-        "Por favor, selecciona una dirección de envío antes de realizar el pedido."
-      );
+      Swal.fire({
+        title: "Atención!!!",
+        text: "Por favor, selecciona una dirección de envío antes de realizar el pedido.",
+        icon: "warning", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
       return;
     }
 
     // Validar que se haya seleccionado una tarjeta
     if (!tarjetaSelect || Object.keys(tarjetaSelect).length === 0) {
-      alert(
-        "Por favor, selecciona una tarjeta de pago antes de realizar el pedido."
-      );
+      Swal.fire({
+        title: "Atención!!!",
+        text: "Por favor, selecciona una tarjeta de pago antes de realizar el pedido.",
+        icon: "warning", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
       return;
     }
 
@@ -147,7 +154,7 @@ const GoToPay = () => {
         id: 0,
         fecha: new Date(),
         iduser: user.id,
-        idDireccion: direccionSelect.id,
+        idDireccion: direccionSelect.idDireccion,
         folio: uniqueFolio,
         estatus: 0,
       };
@@ -219,6 +226,16 @@ const GoToPay = () => {
   const handleShowModalTar = () => setShowModalTar(true);
 
   const handleRegisterDireccion = () => {
+    if (
+      !newDireccion.nombreCompleto.length ||
+      !newDireccion.calleNumero.length ||
+      !newDireccion.codigoPostal.length ||
+      !newDireccion.telefono.length
+    ) {
+      setFormError("Verifica la longitud de los campos");
+      return;
+    }
+
     // Lógica para registrar un nuevo proveedor
     const apiUrl = "https://127.0.0.1:7267/api/Direccion";
     const apiUrlGet = `https://127.0.0.1:7267/api/Direccion/obtener-direcciones/${user.id}`;
@@ -238,6 +255,12 @@ const GoToPay = () => {
       .catch((error) => {
         console.error("Error al registrar direccion:", error);
       });
+    Swal.fire({
+      title: "Registro completado",
+      text: "Dirección registrada correctamente",
+      icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+      confirmButtonText: "Ok",
+    });
   };
 
   const handleDeleteDireccion = (id) => {
@@ -304,6 +327,12 @@ const GoToPay = () => {
       .catch((error) => {
         console.error("Error al registrar tarjeta:", error);
       });
+    Swal.fire({
+      title: "Registro completado",
+      text: "Tarjeta registrada correctamente",
+      icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+      confirmButtonText: "Ok",
+    });
   };
 
   const handleDeleteTarjeta = (id) => {
@@ -498,8 +527,8 @@ const GoToPay = () => {
               </h3>
               <div className="bg-light p-3 mb-5">
                 <div className="border-bottom pb-2">
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6>Subtotal</h6>
+                  <div className="d-flex justify-content-between">
+                    <h6>Subtotal </h6>
                     <h6>${subtotal.toFixed(2)}</h6>
                   </div>
                   <div className="d-flex justify-content-between">

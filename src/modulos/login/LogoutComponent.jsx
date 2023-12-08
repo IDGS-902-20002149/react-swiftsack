@@ -1,24 +1,32 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const LogoutComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleLogout = () => {
-      sessionStorage.removeItem('userData');
-      console.log('Sesión cerrada correctamente');
-      navigate('/');
+      sessionStorage.removeItem("userData");
+      console.log("Sesión cerrada correctamente");
+
+      Swal.fire({
+        title: "Logout",
+        text: "Sesión finalizada correctamente",
+        icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
+
+      navigate("/");
     };
 
     handleLogout();
   }, [navigate]);
 
-  return null; 
+  return null;
 };
 
 export default LogoutComponent;
-
 
 // import { useState } from 'react';
 

@@ -1,12 +1,15 @@
-import { useState } from "react";
-import axios from "axios";
 import RegisterComponent from "./RegisterComponent";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const AuthComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showRegister, setShowRegister] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     // Eliminar información del usuario al cerrar sesión
@@ -33,6 +36,15 @@ const AuthComponent = () => {
           "Usuario almacenado en sessionStorage:",
           sessionStorage.getItem("userData")
         );
+
+        Swal.fire({
+          title: "Login",
+          text: "Sesión iniciada correctamente",
+          icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
+
+        navigate("/");
       } else {
         console.error("Error al iniciar sesión:", response.data);
       }

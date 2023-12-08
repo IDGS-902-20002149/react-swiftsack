@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const ProfileComponent = () => {
   const [user, setUser] = useState({
@@ -12,32 +13,44 @@ const ProfileComponent = () => {
 
   useEffect(() => {
     // Obtener el usuario del sessionStorage
-    const storedUser = JSON.parse(sessionStorage.getItem('userData'));
+    const storedUser = JSON.parse(sessionStorage.getItem("userData"));
 
     if (storedUser) {
-      console.log('Usuario almacenado en sessionStorage:', storedUser);
+      console.log("Usuario almacenado en sessionStorage:", storedUser);
 
       // Obtener el perfil del usuario desde la API
-      axios.get(`https://localhost:7267/api/auth/profile/${storedUser.id}`)
-        .then(response => {
+      axios
+        .get(`https://localhost:7267/api/auth/profile/${storedUser.id}`)
+        .then((response) => {
           setUser(response.data);
-          console.log('Perfil de usuario cargado correctamente:', response.data);
+          console.log(
+            "Perfil de usuario cargado correctamente:",
+            response.data
+          );
         })
         .catch((error) => {
           console.error("Error al obtener el perfil:", error);
         });
     } else {
-      console.log('No se encontró usuario en sessionStorage');
+      console.log("No se encontró usuario en sessionStorage");
     }
   }, []);
 
   const handleUpdateProfile = async () => {
     try {
-      const response = await axios.put(`https://localhost:7267/api/auth/profile/${user.id}`, user);
+      const response = await axios.put(
+        `https://localhost:7267/api/auth/profile/${user.id}`,
+        user
+      );
 
       if (response.status === 200) {
-        console.log('Perfil actualizado:', response.data);
-        setShowAlert(true); // Mostrar la alerta al actualizar exitosamente
+        console.log("Perfil actualizado:", response.data);
+        Swal.fire({
+          title: "Exito!",
+          text: "Tus datos de usuario se han actualizado",
+          icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       } else {
         console.error("Error al actualizar el perfil:", response.data);
       }
@@ -106,43 +119,43 @@ const ProfileComponent = () => {
 
 const styles = {
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
   },
   formContainer: {
-    width: '300px',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#fff',
+    width: "300px",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#fff",
   },
   heading: {
-    textAlign: 'center',
-    marginBottom: '20px',
-    color: '#333',
+    textAlign: "center",
+    marginBottom: "20px",
+    color: "#333",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   label: {
-    marginBottom: '5px',
-    color: '#555',
+    marginBottom: "5px",
+    color: "#555",
   },
   input: {
-    marginBottom: '10px',
-    padding: '8px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
+    marginBottom: "10px",
+    padding: "8px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
   },
   loginButton: {
-    backgroundColor: '#000',
-    color: '#fff',
-    borderRadius: '5px',
-    padding: '10px',
-    cursor: 'pointer',
+    backgroundColor: "#000",
+    color: "#fff",
+    borderRadius: "5px",
+    padding: "10px",
+    cursor: "pointer",
   },
 };
 
