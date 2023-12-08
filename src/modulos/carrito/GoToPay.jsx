@@ -6,7 +6,7 @@ import "./Carrito.css";
 import axios from "axios";
 
 const GoToPay = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("userData")));
   const [dataSource, setDataSource] = useState([]);
   const [tarjetas, setTarjetas] = useState([]);
   const [direcciones, setDirecciones] = useState([]);
@@ -19,6 +19,7 @@ const GoToPay = () => {
   const [carrito, setCarrito] = useState([]);
   const [items, setItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+  const [idD, setidD] = useState(null);
   const [detallesPedido, setDetallesPedido] = useState([]);
 
   const [newDireccion, setNewDireccion] = useState({
@@ -147,12 +148,12 @@ const GoToPay = () => {
         id: 0,
         fecha: new Date(),
         iduser: user.id,
-        idDireccion: direccionSelect.id,
+        idDireccion: idD,
         folio: uniqueFolio,
         estatus: 0,
       };
 
-      console.log(pedido);
+      console.log("pedidp", pedido);
 
       const apiUrl = `https://127.0.0.1:7267/api/Pedido`;
 
@@ -386,44 +387,42 @@ const GoToPay = () => {
                     </button>
                   </div>
                   {direcciones.map((direccion) => (
-                    <div className="card mt-3" key={direccion.id}>
-                      <div className="card-body">
-                        <div className="row">
-                          <div className="col-1 form-check d-flex align-items-center">
-                            <input
-                              type="radio"
-                              name="rgroupDirecciones"
-                              onChange={() => handleDireccionSelect(direccion)}
-                            />
-                          </div>
-                          <div className="col-11">
-                            <p className="mb-0">
-                              Nombre quien recibe: {direccion.nombreCompleto}
-                            </p>
-                            <p className="mb-0">
-                              Dirección: {direccion.calleNumero}
-                            </p>
-                            <p className="mb-0">
-                              C.P.: {direccion.codigoPostal}
-                            </p>
-                            <p className="mb-0">
-                              Teléfono: +52 {direccion.telefono}
-                            </p>
-                            <div>
-                              <button
-                                className="btn btn-danger float-end"
-                                onClick={() =>
-                                  handleDeleteDireccion(direccion.idDireccion)
-                                }
-                              >
-                                <i className="bi bi-trash"></i>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+  <div key={direccion.idDireccion}>
+    <div className="card mt-3">
+    <div className="card-body">
+      <div className="row">
+        <div className="col-1 form-check d-flex align-items-center">
+          <input
+            type="radio"
+            name="rgroupDirecciones"
+            onChange={() => {
+              handleDireccionSelect(direccion);
+              setidD(direccion.idDireccion);
+            }}
+            checked={idD === direccion.idDireccion}
+          />
+        </div>
+        <div className="col-11">
+          <p className="mb-0">
+            Nombre quien recibe: {direccion.nombreCompleto}
+          </p>
+          <p className="mb-0">Dirección: {direccion.calleNumero}</p>
+          <p className="mb-0">C.P.: {direccion.codigoPostal}</p>
+          <p className="mb-0">Teléfono: +52 {direccion.telefono}</p>
+          <div>
+            <button
+              className="btn btn-danger float-end"
+              onClick={() => handleDeleteDireccion(direccion.idDireccion)}
+            >
+              <i className="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+))}
                 </div>
               </div>
             </div>

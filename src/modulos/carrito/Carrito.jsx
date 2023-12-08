@@ -60,7 +60,7 @@ const Carrito = () => {
 
   useEffect(() => {
     // Obtener datos solo cuando cambia user.id
-    fetchData();
+    fetchData(); 
   }, [user]);
 
   useEffect(() => {
@@ -94,7 +94,7 @@ const Carrito = () => {
 
   return (
     <>
-      {!carrito ? (
+      {carrito ? (
         <div className="container-fluid">
           <div className="row px-xl-5">
             <div className="col-lg-8 table-responsive mb-5">
