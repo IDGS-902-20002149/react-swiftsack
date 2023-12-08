@@ -11,7 +11,7 @@ const LogoutComponent = () => {
       console.log("Sesión cerrada correctamente");
 
       Swal.fire({
-        title: "Logout",
+        title: "",
         text: "Sesión finalizada correctamente",
         icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
         confirmButtonText: "Ok",

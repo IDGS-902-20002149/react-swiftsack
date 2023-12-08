@@ -30,9 +30,21 @@ const ProfileComponent = () => {
         })
         .catch((error) => {
           console.error("Error al obtener el perfil:", error);
+          Swal.fire({
+            title: "Error al obtener el perfil",
+            text: "Error al cargar los datos.",
+            icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+            confirmButtonText: "Ok",
+          });
         });
     } else {
       console.log("No se encontró usuario en sessionStorage");
+      Swal.fire({
+        title: "No se encontró usuario en sesión",
+        text: "Por favor, inicia sesión para modificar el perfil.",
+        icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
     }
   }, []);
 
@@ -53,9 +65,21 @@ const ProfileComponent = () => {
         });
       } else {
         console.error("Error al actualizar el perfil:", response.data);
+        Swal.fire({
+          title: "Error al actualizar el perfil",
+          text: "Error al actualizar, vuelve más tarde",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       }
     } catch (error) {
       console.error("Error al actualizar el perfil:", error);
+      Swal.fire({
+        title: "Error al actualizar el perfil",
+        text: "Error al actualizar",error,
+        icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
     }
   };
 

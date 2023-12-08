@@ -49,13 +49,19 @@ const DetalleP = () => {
         });
       Swal.fire({
         title: "Producto añadido",
-        text: "Tu producto ah sido agregado correctamente",
+        text: "Tu producto ha sido agregado correctamente",
         icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
         confirmButtonText: "Ok",
       });
     } else {
       console.log("El objeto no fue encontrado en sessionStorage.");
-      alert("Es necesario que inicies sesion primero");
+      Swal.fire({
+        title: "Login necesario",
+        text: "Es necesario que inicies sesion primero",
+        icon: "info", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
+      // alert("Es necesario que inicies sesion primero");
       navigate(`/login`);
     }
   };

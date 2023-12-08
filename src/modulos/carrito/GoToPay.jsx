@@ -169,9 +169,21 @@ const GoToPay = () => {
           console.log("Pedido registrado con éxito:", response.data);
           console.log(response.id);
           insertDetallePedido(response.id);
+          Swal.fire({
+            title: "Pedido registrado con éxito",
+            text: "El pedido se ha realizado correctamente.",
+            icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+            confirmButtonText: "Ok",
+          });
         })
         .catch((error) => {
           console.error("Error al registrar pedido:", error);
+          Swal.fire({
+            title: "Error al registrar pedido",
+            text: "El pedido no se pudo realizar.",
+            icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+            confirmButtonText: "Ok",
+          });
         });
     } catch (error) {
       console.error(error);
@@ -208,8 +220,20 @@ const GoToPay = () => {
         .delete(`https://localhost:7267/api/Carrito/limpiar-carrito/${id}`)
         .then((response) => response.json());
       console.log("Items eliminados correctamente");
+      Swal.fire({
+        title: "Items eliminados correctamente",
+        text: "Items eliminados.",
+        icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
     } catch (error) {
       console.error("Error al eliminar items", error);
+      Swal.fire({
+        title: "Error al eliminar items",
+        text: "No se pudieron eliminar los items.",
+        icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
     }
   };
 
@@ -254,6 +278,12 @@ const GoToPay = () => {
       })
       .catch((error) => {
         console.error("Error al registrar direccion:", error);
+        Swal.fire({
+          title: "Error al registrar direccion",
+          text: "No se pudo registrar la dirección",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       });
     Swal.fire({
       title: "Registro completado",
@@ -272,7 +302,12 @@ const GoToPay = () => {
       .delete(apiUrl)
       .then((response) => {
         console.log("Direccion eliminado con éxito:", response.data);
-
+        Swal.fire({
+          title: "Dirección eliminada con éxito",
+          text: "Dirección eliminada correctamente",
+          icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
         // Actualizar la lista local
         // Recargar la lista de direcciones después de insertar uno nuevo
         axios
@@ -326,6 +361,12 @@ const GoToPay = () => {
       })
       .catch((error) => {
         console.error("Error al registrar tarjeta:", error);
+        Swal.fire({
+          title: "Registro completado",
+          text: "No se pudo registrar la tarjeta",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       });
     Swal.fire({
       title: "Registro completado",
@@ -343,8 +384,13 @@ const GoToPay = () => {
     axios
       .delete(apiUrl)
       .then((response) => {
-        console.log("Tarjeta eliminado con éxito:", response.data);
-
+        console.log("Tarjeta eliminada con éxito:", response.data);
+        Swal.fire({
+          title: "Tarjeta eliminada con éxito",
+          text: "Tarjeta eliminada correctamente",
+          icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
         // Actualizar la lista local
         // Recargar la lista de tarjetas después de eliminar una
         axios
@@ -354,6 +400,12 @@ const GoToPay = () => {
       })
       .catch((error) => {
         console.error("Error al actualizar tarjetas:", error);
+        Swal.fire({
+          title: "Error al actualizar tarjetas",
+          text: "Actualización correcta",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       });
   };
 
