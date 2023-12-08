@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 
 // eslint-disable-next-line react/prop-types
 const RegisterComponent = ({ toggleView }) => {
@@ -25,12 +27,30 @@ const RegisterComponent = ({ toggleView }) => {
         console.log("Registro exitoso:", response.data);
         toggleView(); // Cambiar a la vista de inicio de sesión después del registro exitoso
         // Puedes agregar más lógica aquí si es necesario
+        Swal.fire({
+          title: "Registro exitoso",
+          text: "El registro se ha realizado exitosamente",
+          icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       } else {
         console.error('Error al registrar:', response.data);
-        setError('Error al registrar. Por favor, verifica tus datos e intenta de nuevo.');
+        // setError('Error al registrar. Por favor, verifica tus datos e intenta de nuevo.');
+        Swal.fire({
+          title: "Error al registrar",
+          text: "Por favor, verifica tus datos e intenta de nuevo.",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       }
     } catch (error) {
-      setError('Error al registrar. Por favor, verifica tus datos e intenta de nuevo.');
+      // setError('Error al registrar. Por favor, verifica tus datos e intenta de nuevo.');
+      Swal.fire({
+        title: "Error al registrar",
+        text: "Por favor, verifica tus datos e intenta de nuevo.",
+        icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
     }
   };
 

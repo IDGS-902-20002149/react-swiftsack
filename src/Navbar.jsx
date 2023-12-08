@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
 
   const handleHome = () => {
     // Redirigir a la ruta de resultados con el término de búsqueda en la URL
@@ -45,36 +47,40 @@ const Navbar = () => {
           >
             <span className="btn btn-dark"> NUESTROS PRODUCTOS </span>
           </button>
+          {!userData && (
+            <button className="navbar-toggler" type="button">
+              <Link to="/login" className="btn btn-dark">
+                {" "}
+                LOGIN{" "}
+              </Link>
+            </button>
+          )}
+          {userData && (
+            <button className="navbar-toggler" type="button">
+              <Link to="/profile" className="btn btn-dark">
+                {" "}
+                PERFIL{" "}
+              </Link>
+            </button>
+          )}
           <button className="navbar-toggler" type="button">
-            <Link to="/login" className="btn btn-dark">
+            <Link to="/pedidos" className="btn btn-dark">
               {" "}
-              LOGIN{" "}
+              PEDIDOS{" "}
             </Link>
           </button>
-          <button className="navbar-toggler" type="button">
-            <Link to="/profile" className="btn btn-dark">
-              {" "}
-              PERFIL{" "}
-            </Link>
-          </button>
+          {userData && (
+            <button className="navbar-toggler" type="button">
+              <Link to="/logout" className="btn btn-dark">
+                Cerrar Sesión
+              </Link>
+            </button>
+          )}
           <button className="navbar-toggler" type="button">
             <Link to="/shopping-car" className="btn btn-dark">
               <i className="bi bi-cart4"></i>
             </Link>
           </button>
-
-          <button className="navbar-toggler" type="button">
-            <Link to="/pedidos" className="btn btn-dark"> PEDIDOS </Link>
-          </button>
-          <button className="navbar-toggler" type="button">
-          <Link to="/logout" className="btn btn-dark">Cerrar Sesión</Link>
-          </button>
-
-
-
-
-
-
           <div
             className="offcanvas offcanvas-start text-bg-dark"
             tabIndex="-1"

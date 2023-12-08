@@ -1,19 +1,22 @@
-import { useState } from "react";
-import axios from "axios";
 import RegisterComponent from "./RegisterComponent";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const AuthComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showRegister, setShowRegister] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Eliminar información del usuario al cerrar sesión
-    localStorage.removeItem("user");
-    setLogoutMessage("Sesión cerrada correctamente");
-    // Otros pasos que puedas necesitar al cerrar sesión
-  };
+  // const handleLogout = () => {
+  //   // Eliminar información del usuario al cerrar sesión
+  //   localStorage.removeItem("user");
+  //   setLogoutMessage("Sesión cerrada correctamente");
+  //   // Otros pasos que puedas necesitar al cerrar sesión
+  // };
 
   const handleLogin = async () => {
     try {
@@ -33,19 +36,55 @@ const AuthComponent = () => {
           "Usuario almacenado en sessionStorage:",
           sessionStorage.getItem("userData")
         );
+
+        Swal.fire({
+          title: "Login",
+          text: "Sesión iniciada correctamente",
+          icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
+
+        navigate("/");
       } else {
         console.error("Error al iniciar sesión:", response.data);
+        Swal.fire({
+          title: "Error al iniciar sesión",
+          text: response.data.message,
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
+
       }
     } catch (error) {
       if (error.response) {
-        console.error("Error al iniciar sesión:", error.response.data);
+        console.log(JSON.stringify(error));
+
+        console.error("Error al iniciar sesión:", error.response.data.message);
+        Swal.fire({
+          title: "Error al iniciar sesión",
+          text: error.response.data.message,
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       } else if (error.request) {
         console.error("Error al realizar la solicitud:", error.request);
+        Swal.fire({
+          title: "Error al realizar la solicitud",
+          text: "Error al realizar la solicitud al servidor",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       } else {
         console.error(
           "Error en la configuración de la solicitud:",
           error.message
         );
+        Swal.fire({
+          title: "Error en la configuración de la solicitud",
+          text: "Error en la configuración de la solicitud",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       }
     }
   };
@@ -94,7 +133,7 @@ const AuthComponent = () => {
               >
                 Registrarse
               </button>
-              {localStorage.getItem("user") && (
+              {/* {localStorage.getItem("user") && (
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -102,7 +141,7 @@ const AuthComponent = () => {
                 >
                   Cerrar Sesión
                 </button>
-              )}
+              )} */}
             </form>
           </>
         )}

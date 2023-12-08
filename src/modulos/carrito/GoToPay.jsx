@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./Carrito.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const GoToPay = () => {
-  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("userData")));
+  const [user, setUser] = useState(
+    JSON.parse(sessionStorage.getItem("userData"))
+  );
   const [dataSource, setDataSource] = useState([]);
   const [tarjetas, setTarjetas] = useState([]);
   const [direcciones, setDirecciones] = useState([]);
@@ -19,8 +22,6 @@ const GoToPay = () => {
   const [carrito, setCarrito] = useState([]);
   const [items, setItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
-  const [idD, setidD] = useState(null);
-  const [detallesPedido, setDetallesPedido] = useState([]);
 
   const [newDireccion, setNewDireccion] = useState({
     idDireccion: 0,
@@ -84,7 +85,6 @@ const GoToPay = () => {
   };
 
   useEffect(() => {
-    // Obtener datos solo cuando cambia user.id
     fetchData();
   }, [user]);
 
@@ -128,17 +128,23 @@ const GoToPay = () => {
   const handleRealizarPedido = async () => {
     // Validar que se haya seleccionado una dirección
     if (!direccionSelect || Object.keys(direccionSelect).length === 0) {
-      alert(
-        "Por favor, selecciona una dirección de envío antes de realizar el pedido."
-      );
+      Swal.fire({
+        title: "Atención!!!",
+        text: "Por favor, selecciona una dirección de envío antes de realizar el pedido.",
+        icon: "warning", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
       return;
     }
 
     // Validar que se haya seleccionado una tarjeta
     if (!tarjetaSelect || Object.keys(tarjetaSelect).length === 0) {
-      alert(
-        "Por favor, selecciona una tarjeta de pago antes de realizar el pedido."
-      );
+      Swal.fire({
+        title: "Atención!!!",
+        text: "Por favor, selecciona una tarjeta de pago antes de realizar el pedido.",
+        icon: "warning", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
       return;
     }
 
@@ -148,12 +154,12 @@ const GoToPay = () => {
         id: 0,
         fecha: new Date(),
         iduser: user.id,
-        idDireccion: idD,
+        idDireccion: direccionSelect.idDireccion,
         folio: uniqueFolio,
         estatus: 0,
       };
 
-      console.log("pedidp", pedido);
+      console.log(pedido);
 
       const apiUrl = `https://127.0.0.1:7267/api/Pedido`;
 
@@ -163,9 +169,21 @@ const GoToPay = () => {
           console.log("Pedido registrado con éxito:", response.data);
           console.log(response.id);
           insertDetallePedido(response.id);
+          Swal.fire({
+            title: "Pedido registrado con éxito",
+            text: "El pedido se ha realizado correctamente.",
+            icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+            confirmButtonText: "Ok",
+          });
         })
         .catch((error) => {
           console.error("Error al registrar pedido:", error);
+          Swal.fire({
+            title: "Error al registrar pedido",
+            text: "El pedido no se pudo realizar.",
+            icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+            confirmButtonText: "Ok",
+          });
         });
     } catch (error) {
       console.error(error);
@@ -202,8 +220,20 @@ const GoToPay = () => {
         .delete(`https://localhost:7267/api/Carrito/limpiar-carrito/${id}`)
         .then((response) => response.json());
       console.log("Items eliminados correctamente");
+      Swal.fire({
+        title: "Items eliminados correctamente",
+        text: "Items eliminados.",
+        icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
     } catch (error) {
       console.error("Error al eliminar items", error);
+      Swal.fire({
+        title: "Error al eliminar items",
+        text: "No se pudieron eliminar los items.",
+        icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+        confirmButtonText: "Ok",
+      });
     }
   };
 
@@ -220,10 +250,19 @@ const GoToPay = () => {
   const handleShowModalTar = () => setShowModalTar(true);
 
   const handleRegisterDireccion = () => {
+    if (
+      !newDireccion.nombreCompleto.length ||
+      !newDireccion.calleNumero.length ||
+      !newDireccion.codigoPostal.length ||
+      !newDireccion.telefono.length
+    ) {
+      setFormError("Verifica la longitud de los campos");
+      return;
+    }
+
     // Lógica para registrar un nuevo proveedor
     const apiUrl = "https://127.0.0.1:7267/api/Direccion";
     const apiUrlGet = `https://127.0.0.1:7267/api/Direccion/obtener-direcciones/${user.id}`;
-    alert(JSON.stringify(newDireccion, null, 2));
 
     axios
       .post(apiUrl, newDireccion)
@@ -239,7 +278,19 @@ const GoToPay = () => {
       })
       .catch((error) => {
         console.error("Error al registrar direccion:", error);
+        Swal.fire({
+          title: "Error al registrar direccion",
+          text: "No se pudo registrar la dirección",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       });
+    Swal.fire({
+      title: "Registro completado",
+      text: "Dirección registrada correctamente",
+      icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+      confirmButtonText: "Ok",
+    });
   };
 
   const handleDeleteDireccion = (id) => {
@@ -251,7 +302,12 @@ const GoToPay = () => {
       .delete(apiUrl)
       .then((response) => {
         console.log("Direccion eliminado con éxito:", response.data);
-
+        Swal.fire({
+          title: "Dirección eliminada con éxito",
+          text: "Dirección eliminada correctamente",
+          icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
         // Actualizar la lista local
         // Recargar la lista de direcciones después de insertar uno nuevo
         axios
@@ -305,7 +361,19 @@ const GoToPay = () => {
       })
       .catch((error) => {
         console.error("Error al registrar tarjeta:", error);
+        Swal.fire({
+          title: "Registro completado",
+          text: "No se pudo registrar la tarjeta",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       });
+    Swal.fire({
+      title: "Registro completado",
+      text: "Tarjeta registrada correctamente",
+      icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+      confirmButtonText: "Ok",
+    });
   };
 
   const handleDeleteTarjeta = (id) => {
@@ -316,8 +384,13 @@ const GoToPay = () => {
     axios
       .delete(apiUrl)
       .then((response) => {
-        console.log("Tarjeta eliminado con éxito:", response.data);
-
+        console.log("Tarjeta eliminada con éxito:", response.data);
+        Swal.fire({
+          title: "Tarjeta eliminada con éxito",
+          text: "Tarjeta eliminada correctamente",
+          icon: "success", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
         // Actualizar la lista local
         // Recargar la lista de tarjetas después de eliminar una
         axios
@@ -327,6 +400,12 @@ const GoToPay = () => {
       })
       .catch((error) => {
         console.error("Error al actualizar tarjetas:", error);
+        Swal.fire({
+          title: "Error al actualizar tarjetas",
+          text: "Actualización correcta",
+          icon: "error", // Puedes cambiar el icono según tus necesidades (success, error, warning, info, etc.)
+          confirmButtonText: "Ok",
+        });
       });
   };
 
@@ -388,42 +467,44 @@ const GoToPay = () => {
                     </button>
                   </div>
                   {direcciones.map((direccion) => (
-  <div key={direccion.idDireccion}>
-    <div className="card mt-3">
-    <div className="card-body">
-      <div className="row">
-        <div className="col-1 form-check d-flex align-items-center">
-          <input
-            type="radio"
-            name="rgroupDirecciones"
-            onChange={() => {
-              handleDireccionSelect(direccion);
-              setidD(direccion.idDireccion);
-            }}
-            checked={idD === direccion.idDireccion}
-          />
-        </div>
-        <div className="col-11">
-          <p className="mb-0">
-            Nombre quien recibe: {direccion.nombreCompleto}
-          </p>
-          <p className="mb-0">Dirección: {direccion.calleNumero}</p>
-          <p className="mb-0">C.P.: {direccion.codigoPostal}</p>
-          <p className="mb-0">Teléfono: +52 {direccion.telefono}</p>
-          <div>
-            <button
-              className="btn btn-danger float-end"
-              onClick={() => handleDeleteDireccion(direccion.idDireccion)}
-            >
-              <i className="bi bi-trash"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-))}
+                    <div className="card mt-3" key={direccion.id}>
+                      <div className="card-body">
+                        <div className="row">
+                          <div className="col-1 form-check d-flex align-items-center">
+                            <input
+                              type="radio"
+                              name="rgroupDirecciones"
+                              onChange={() => handleDireccionSelect(direccion)}
+                            />
+                          </div>
+                          <div className="col-11">
+                            <p className="mb-0">
+                              Nombre quien recibe: {direccion.nombreCompleto}
+                            </p>
+                            <p className="mb-0">
+                              Dirección: {direccion.calleNumero}
+                            </p>
+                            <p className="mb-0">
+                              C.P.: {direccion.codigoPostal}
+                            </p>
+                            <p className="mb-0">
+                              Teléfono: +52 {direccion.telefono}
+                            </p>
+                            <div>
+                              <button
+                                className="btn btn-danger float-end"
+                                onClick={() =>
+                                  handleDeleteDireccion(direccion.idDireccion)
+                                }
+                              >
+                                <i className="bi bi-trash"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -498,8 +579,8 @@ const GoToPay = () => {
               </h3>
               <div className="bg-light p-3 mb-5">
                 <div className="border-bottom pb-2">
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6>Subtotal</h6>
+                  <div className="d-flex justify-content-between">
+                    <h6>Subtotal </h6>
                     <h6>${subtotal.toFixed(2)}</h6>
                   </div>
                   <div className="d-flex justify-content-between">
