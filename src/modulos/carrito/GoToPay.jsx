@@ -223,6 +223,7 @@ const GoToPay = () => {
     // Lógica para registrar un nuevo proveedor
     const apiUrl = "https://127.0.0.1:7267/api/Direccion";
     const apiUrlGet = `https://127.0.0.1:7267/api/Direccion/obtener-direcciones/${user.id}`;
+    alert(JSON.stringify(newDireccion, null, 2));
 
     axios
       .post(apiUrl, newDireccion)

@@ -17,8 +17,8 @@ const Carrito = () => {
 
   const eliminarItem = async (id) => {
     // Lógica para actualizar el proveedor
-    const apiUrl = `https://127.0.0.1:7267/api/Carrito?Id=${id}`;
-    const apiUrlGet = `https://127.0.0.1:7267/api/Carrito/obtener-carrito/${user.id}`;
+    const apiUrl = `https://localhost:7267/api/Carrito?Id=${id}`;
+    const apiUrlGet = `https://localhost:7267/api/Carrito/obtener-carrito/${user.id}`;
 
     axios
       .delete(apiUrl)
@@ -95,7 +95,7 @@ const Carrito = () => {
 
   return (
     <>
-      {carrito ? (
+      {!carrito ? (
         <div className="container-fluid">
           <div className="d-flex justify-content-center">
             <div className="text-center">
